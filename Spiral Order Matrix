@@ -1,0 +1,53 @@
+/**
+ * @input A : Read only ( DON'T MODIFY ) 2D integer array '
+ * @input n11 : Integer array's ( A ) rows
+ * @input n12 : Integer array's ( A ) columns
+ * 
+ * @Output Integer array. You need to malloc memory for result array, and fill result's length in length_of_array
+ */
+ 
+int* spiralOrder(const int** A, int n11, int n12, int *length_of_array) {
+	 *length_of_array = n11 * n12; // length of result array
+	 int *result = (int *) malloc(*length_of_array * sizeof(int));
+	 int i,k = 0;
+	 //T,B,L,R for topmost, bottommost, leftmost and rightmost indices respectively
+	 int T = 0, B = n11 - 1,L = 0, R = n12 - 1;
+	 
+	 //Direction variable L->B->R->T
+	 int dir = 0;
+	 
+	 //Repeat loop till Top <= Bottom and Left <= Right
+	 while( T <= B && L <= R)
+	    {
+				//We are the topmost index and we need to go from the leftmost indice to the rightmost indice
+	        if(dir == 0)
+	            {
+	                for( i = L;i <= R; i++)
+	                    result[k++] = A[T][i];
+	               T++;     
+	            }
+	        //We are currently at the leftmost index and we need to go from the topmost to the bottommost indice    
+	        else if( dir == 1)
+	            {
+	                for( i = T; i <= B; i++)
+	                    result[k++] = A[i][R];
+	                R--;
+	            }
+	        //We are at the bottommost indice and we need to go from the rightmost to the leftmost indice
+	        else if( dir == 2)
+	            {
+	                for( i = R; i >= L; i--)
+	                    result[k++] = A[B][i];
+	                B--;
+	            }
+				//We are at the rightmost indice and we need to go from bottommost to the topmost indice			
+	       else if( dir == 3)
+	        {
+	            for( i = B; i >= T; i--)
+	                result[k++] = A[i][L];
+	            L++;
+	        }
+	   dir = (dir+1)%4;     
+	    }
+	 return result;
+}
